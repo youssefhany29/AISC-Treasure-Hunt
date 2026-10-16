@@ -2,6 +2,8 @@
 
 A complete mobile-first, browser-based mystery for the AISC treasure hunt. Participants open the public site from a QR code, investigate a cafe, open an informant's case, restore a blueprint, and identify the next checkpoint. No account, installation, camera, location permission, backend, analytics, or background music.
 
+**[Play the published game](https://youssefhany29.github.io/AISC-Treasure-Hunt/)** · [Public source repository](https://github.com/youssefhany29/AISC-Treasure-Hunt) · [Deployment verification](docs/DEPLOYMENT.md)
+
 ## Run locally
 
 Requires **Node.js 20+** for the preview server and tests. The game itself needs only a modern browser.
@@ -106,7 +108,7 @@ Using an authenticated GitHub CLI:
 
 ```powershell
 git init -b main
-git add index.html css js assets scripts tests package.json README.md ASSET_CREDITS.md docs sw.js asset-manifest.js .nojekyll .gitignore
+git add index.html css js assets scripts tests package.json README.md ASSET_CREDITS.md docs sw.js asset-manifest.js .nojekyll .gitignore .gitattributes
 git commit -m "Build AISC CASE 02 treasure hunt"
 ```
 

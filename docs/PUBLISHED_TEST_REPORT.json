@@ -1,0 +1,68 @@
+{
+  "base": "https://youssefhany29.github.io/AISC-Treasure-Hunt/",
+  "engine": "Chromium",
+  "widths": [
+    {
+      "width": 320,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    },
+    {
+      "width": 375,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    },
+    {
+      "width": 390,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    },
+    {
+      "width": 430,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    },
+    {
+      "width": 768,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    },
+    {
+      "width": 1024,
+      "result": "PASS",
+      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "screens": 8,
+      "logo": "intro and complete only",
+      "overflow": "none",
+      "consoleErrors": 0
+    }
+  ],
+  "checks": [
+    "390px entire investigation played offline after initial cache",
+    "Audio: 11 local WAV effects decoded by browser",
+    "Offline refresh and local asset loading passed",
+    "Corrupted save recovery, unavailable AudioContext, saved mute preference, organizer reset"
+  ],
+  "errors": [],
+  "result": "PASS"
+}
