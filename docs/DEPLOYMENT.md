@@ -2,6 +2,8 @@
 
 Verified on **16 October 2026** (Europe/Istanbul).
 
+**Current puzzle update:** the six-piece sports hall photo release is deployed from game-source commit `e9376a0fb94bdf8823be10f87ea0cff3b698a58e`. [Its Pages deployment succeeded](https://github.com/youssefhany29/AISC-Treasure-Hunt/actions/runs/38949282661). The published game passed complete touch/mouse playthroughs at all six widths. See [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md), the latest [published report](PUBLISHED_TEST_REPORT.json), and the [cached-client migration check](CACHE_UPGRADE_TEST_REPORT.json). The public URL is unchanged.
+
 ## Public game URL
 
 **https://youssefhany29.github.io/AISC-Treasure-Hunt/**
@@ -28,7 +30,7 @@ The repository was checked before creation; no duplicate was created. Git was in
 
    `5FBFE27DCE694128AC767A016C2AE2B5CEC3D1E144897AC1B152D785F4DCE1DB`
 
-5. **Complete anonymous browser playthroughs on the published site passed at 320, 375, 390, 430, 768 and 1024px.** Tests checked all stages, images, console/network errors, horizontal overflow/clipped controls, wrong codes and doors, inventory, hints, saved progress, keyboard blueprint swapping, and destination/branding visibility.
+5. **Complete anonymous browser playthroughs on the published site passed at 320, 375, 390, 430, 768 and 1024px.** Tests checked all stages, images, console/network errors, horizontal overflow/clipped controls, wrong codes and doors, inventory, hints, saved progress, touch/mouse dragging, keyboard photo-piece placement, automatic progression, and destination/branding visibility.
 6. All **11 sound effects** decoded from the live deployment. The entire 390px game also completed **offline after initial caching**, followed by an offline refresh of Mission Complete.
 7. Public-site tests also checked corrupt-save recovery, unavailable AudioContext, saved mute preference, and organizer reset.
 

@@ -5,7 +5,8 @@
     {
       "width": 320,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",
@@ -14,7 +15,8 @@
     {
       "width": 375,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",
@@ -23,7 +25,8 @@
     {
       "width": 390,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",
@@ -32,7 +35,8 @@
     {
       "width": 430,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",
@@ -41,7 +45,8 @@
     {
       "width": 768,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "mouse",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",
@@ -50,7 +55,8 @@
     {
       "width": 1024,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → blueprint → deduction → complete",
+      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "dragging": "mouse",
       "screens": 8,
       "logo": "intro and complete only",
       "overflow": "none",

@@ -1,0 +1,11 @@
+{
+  "base": "http://127.0.0.1:4175/",
+  "upgrade": "v1 → v2 photo puzzle",
+  "result": "PASS",
+  "checks": [
+    "Real v1 cached client upgraded to v2",
+    "Legacy clues/case/preferences retained",
+    "New placements survive offline reload using upgraded cache",
+    "Legacy completed mission remains complete"
+  ]
+}
