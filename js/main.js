@@ -5,6 +5,7 @@ import { preloadImages } from './asset-loader.js';
 import { showInventory } from './components/evidence-inventory.js';
 import { showHint } from './components/hints.js';
 import { showModal, closeModal } from './components/modal.js';
+import { confirmRestart } from './components/restart.js';
 import { reducedMotion } from './components/transitions.js';
 import { renderIntro } from './stages/intro.js';
 import { renderCafe } from './stages/cafe.js';
@@ -23,7 +24,17 @@ let cleanup; let renderId=0; let toastTimer;
 const stageRenderers={intro:renderIntro,cafe:renderCafe,lock:renderLock,blueprint:renderBlueprint,deduction:renderDeduction,complete:renderCompletion};
 if (!CONFIG.ENABLE_ANIMATIONS) document.documentElement.classList.add('no-motion');
 const ctx={game,audio,get state(){return game.get();},render,updateChrome,reducedMotion,
-  inventory:()=>showInventory(ctx),hint:()=>showHint(ctx),toast};
+  inventory:()=>showInventory(ctx),hint:()=>showHint(ctx),toast,restart:requestRestart};
+
+function requestRestart() {
+  if (!CONFIG.ALLOW_RESTART) return;
+  confirmRestart(() => {
+    clearTimeout(toastTimer);
+    document.querySelector('#toast').classList.remove('visible');
+    game.reset();
+    render();
+  });
+}
 
 function updateChrome() {
   const state=game.get();
@@ -50,7 +61,9 @@ async function render() {
   main.setAttribute('aria-busy','true');
   const loaded=await preloadImages(stageAssets(stage));
   if(id!==renderId)return;
-  cleanup=stageRenderers[stage](main,ctx);
+  // Async stage animations must not act on a mission that has been restarted.
+  const stageContext={...ctx,isActive:()=>id===renderId,render:()=>{if(id===renderId)render();}};
+  cleanup=stageRenderers[stage](main,stageContext);
   main.setAttribute('aria-busy','false');
   main.focus({preventScroll:true}); window.scrollTo({top:0,behavior:'instant'});
   if(loaded.some(x=>!x.ok)) toast('An illustration could not load. The investigation can still continue.');
@@ -67,8 +80,8 @@ document.querySelector('#case-home').addEventListener('click',e=>{
   showModal(`<p class="eyebrow">CLASSIFIED // CASE ${CONFIG.CASE_NUMBER}</p><h2 id="modal-title">The mission briefing</h2><p>Your contact has disappeared. Recover four clues from the cafe, open the locked case, and reconstruct the erased destination.</p><p>Your progress stays saved as you investigate.</p><button class="primary-button full" type="button" data-close>RETURN TO YOUR INVESTIGATION ↗</button>`);
 });
 document.querySelector('#organizer').addEventListener('click',()=>{
-  showModal(`<p class="eyebrow">FIELD OPERATIONS / CASE SETTINGS</p><h2 id="modal-title">Your investigation</h2><p>Your progress is ${game.persistenceAvailable?'saved on this browser':'available for this visit. Browser storage is unavailable'}. No personal information is collected.</p>${game.get().complete?'<button class="secondary-button full" id="reopen-result" type="button">SHOW MISSION RESULT ↗</button>':''}${CONFIG.ALLOW_RESTART?'<details class="reset-details"><summary>Organizer: reset this mission</summary><p>This clears all clues and puzzle progress on this browser. Sound preferences are kept.</p><button id="confirm-reset" class="danger-button" type="button">CLEAR PROGRESS AND RESTART</button></details>':''}<button class="secondary-button full" type="button" data-close>BACK TO THE CASE</button>`,root=>{
-    root.querySelector('#confirm-reset')?.addEventListener('click',()=>{game.reset();render();});
+  showModal(`<p class="eyebrow">FIELD OPERATIONS / CASE SETTINGS</p><h2 id="modal-title">Your investigation</h2><p>Your progress is ${game.persistenceAvailable?'saved on this browser':'available for this visit. Browser storage is unavailable'}. No personal information is collected.</p>${game.get().complete?'<button class="secondary-button full" id="reopen-result" type="button">SHOW MISSION RESULT ↗</button>':''}${CONFIG.ALLOW_RESTART?'<button id="restart-mission" class="secondary-button full" type="button">RESTART MISSION</button>':''}<button class="secondary-button full" type="button" data-close>BACK TO THE CASE</button>`,root=>{
+    root.querySelector('#restart-mission')?.addEventListener('click',requestRestart);
     root.querySelector('#reopen-result')?.addEventListener('click',()=>render());
   });
 });

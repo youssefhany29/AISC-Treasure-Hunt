@@ -25,7 +25,9 @@ export function renderLock(root, ctx) {
     busy=true; feedback.textContent='ACCESS GRANTED'; feedback.className='lock-feedback granted';
     root.querySelector('#case-status').textContent='UNSEALED'; root.querySelector('#security-case').classList.add('unlocked');
     root.querySelectorAll('button[data-key],#unlock').forEach(b=>b.disabled=true);
-    ctx.updateChrome(); ctx.audio.play('correct'); await animationDelay(450); ctx.audio.play('unlock'); await animationDelay(600); ctx.render();
+    ctx.updateChrome(); ctx.audio.play('correct'); await animationDelay(450);
+    if (!ctx.isActive()) return;
+    ctx.audio.play('unlock'); await animationDelay(600); ctx.render();
   }
   root.querySelector('#unlock').addEventListener('click', unlock);
   const keyboard = e => { if (isModalOpen() || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('button,a,input')) return; if (/^\d$/.test(e.key)) { e.preventDefault(); press(e.key); } else if (e.key==='Backspace'||e.key==='Delete') { e.preventDefault(); press('DEL'); } else if(e.key==='Escape') press('C'); else if(e.key==='Enter') { e.preventDefault(); unlock(); } };

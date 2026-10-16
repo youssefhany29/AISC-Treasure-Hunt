@@ -20,18 +20,18 @@ export const CONFIG = Object.freeze({
   ],
   lockOrder: ['napkin', 'receipt', 'coaster', 'cup'],
   puzzle: {
-    version: 2,
-    columns: 2,
-    rows: 3,
+    version: 3,
+    columns: 3,
+    rows: 2,
     source: 'assets/images/puzzle/indoor-sports-hall.png',
-    image: 'assets/images/puzzle/evidence-frame.png',
+    image: 'assets/images/puzzle/indoor-sports-hall.png',
     pieces: [
-      { id: 'k7', label: 'K7', slot: 0, image: 'assets/images/puzzle/tiles/tile-01.png' },
-      { id: 'm2', label: 'M2', slot: 1, image: 'assets/images/puzzle/tiles/tile-02.png' },
-      { id: 'r9', label: 'R9', slot: 2, image: 'assets/images/puzzle/tiles/tile-03.png' },
-      { id: 'c4', label: 'C4', slot: 3, image: 'assets/images/puzzle/tiles/tile-04.png' },
-      { id: 'n6', label: 'N6', slot: 4, image: 'assets/images/puzzle/tiles/tile-05.png' },
-      { id: 'f1', label: 'F1', slot: 5, image: 'assets/images/puzzle/tiles/tile-06.png' }
+      { id: 'k7', label: 'K7', slot: 0, width: 164, height: 180, image: 'assets/images/puzzle/photo-tiles-v3/tile-01.png' },
+      { id: 'm2', label: 'M2', slot: 1, width: 164, height: 180, image: 'assets/images/puzzle/photo-tiles-v3/tile-02.png' },
+      { id: 'r9', label: 'R9', slot: 2, width: 164, height: 180, image: 'assets/images/puzzle/photo-tiles-v3/tile-03.png' },
+      { id: 'c4', label: 'C4', slot: 3, width: 164, height: 181, image: 'assets/images/puzzle/photo-tiles-v3/tile-04.png' },
+      { id: 'n6', label: 'N6', slot: 4, width: 164, height: 181, image: 'assets/images/puzzle/photo-tiles-v3/tile-05.png' },
+      { id: 'f1', label: 'F1', slot: 5, width: 164, height: 181, image: 'assets/images/puzzle/photo-tiles-v3/tile-06.png' }
     ]
   },
   doors: [
@@ -76,7 +76,7 @@ export const CONFIG = Object.freeze({
       intro: 'Begin at the cafe. Every object the informant left behind may matter.',
       cafe: 'Some objects can be lifted, flipped, or unfolded.',
       lock: 'Match the recovered symbols to the numbers, then follow the order shown on the lock.',
-      blueprint: 'Drag the pieces into the correct positions to rebuild the image. Match the court lines, railings, and edges of the evidence frame.',
+      blueprint: 'Drag the pieces into the correct positions to rebuild the image. Match the court lines, railings, and edges of the photograph.',
       deduction: 'Look for the place with court lines, spectator stands, a scoreboard, and a roof.'
     }
   }

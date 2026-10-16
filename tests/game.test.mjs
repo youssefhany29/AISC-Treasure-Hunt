@@ -101,7 +101,7 @@ test('corrupt JSON and incompatible storage versions fall back safely', () => {
   store.setItem(storageKey, JSON.stringify({ version: 999, stage: 'complete', complete: true })); assert.equal(createGame(store).get().complete, false);
 });
 test('corrupted photo state recovers every tile once and retains valid placements', () => {
-  const puzzle = sanitizePuzzle({ version: 2, slots: [pieceOrder[0], pieceOrder[0], 'wrong'], tray: [pieceOrder[0], pieceOrder[1], pieceOrder[1], 'unknown'] });
+  const puzzle = sanitizePuzzle({ version: CONFIG.puzzle.version, slots: [pieceOrder[0], pieceOrder[0], 'wrong'], tray: [pieceOrder[0], pieceOrder[1], pieceOrder[1], 'unknown'] });
   assert.equal(puzzle.slots[0], pieceOrder[0]); assert.equal(puzzle.slots[1], null);
   const all = [...puzzle.slots.filter(Boolean), ...puzzle.tray]; assert.equal(all.length, 6); assert.deepEqual([...all].sort(), [...pieceOrder].sort());
 });
@@ -130,6 +130,31 @@ test('pure placement does not mutate its input', () => {
 test('reset clears the six-piece puzzle while retaining sound preference', () => {
   const g = createGame(memory()); readyPuzzle(g); g.placePiece(pieceOrder[0], 0); g.setSound(false); g.reset();
   assert.equal(g.get().stage, 'intro'); assert.deepEqual(g.get().evidence, []); assert.equal(g.get().sound, false); assert.deepEqual(g.get().puzzle.slots, Array(6).fill(null));
+});
+
+test('completed missions can restart and finish repeatedly without touching unrelated storage', () => {
+  const store = memory(); store.setItem('unrelated.browser.data', 'keep me');
+  let g = createGame(store); g.setSound(false);
+  for (let run = 0; run < 3; run++) {
+    readyPuzzle(g); g.useHint('blueprint'); solvePuzzle(g); g.openDeduction(); g.chooseDoor('D');
+    assert.equal(createGame(store).get().complete, true);
+    const reset = g.reset();
+    assert.deepEqual(reset, { ...initialState(), puzzle: reset.puzzle, sound: false });
+    assert.deepEqual(reset.puzzle.slots, Array(6).fill(null)); assert.equal(reset.puzzle.tray.length, 6);
+    assert.equal(store.getItem('unrelated.browser.data'), 'keep me');
+    g = createGame(store); assert.equal(g.get().stage, 'intro'); assert.equal(g.get().sound, false);
+  }
+});
+
+test('old framed puzzle saves retain completed missions, while partial tiles reset for the new photo', () => {
+  const g = createGame(memory()); readyPuzzle(g); g.placePiece(pieceOrder[0], 0);
+  const partial = g.get(); partial.puzzle.version = 2;
+  const updated = sanitizeState(partial);
+  assert.equal(updated.stage, 'blueprint'); assert.equal(updated.evidence.length, 4);
+  assert.deepEqual(updated.puzzle.slots, Array(6).fill(null)); assert.equal(updated.puzzle.version, 3);
+  solvePuzzle(g); g.openDeduction(); g.chooseDoor('D');
+  const complete = g.get(); complete.puzzle.version = 2;
+  assert.equal(sanitizeState(complete).complete, true); assert.equal(sanitizeState(complete).stage, 'complete');
 });
 test('unavailable storage does not block play or completion', () => {
   const broken = { getItem() { throw Error('denied'); }, setItem() { throw Error('full'); } }; const g = createGame(broken);

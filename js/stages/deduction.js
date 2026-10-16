@@ -9,6 +9,8 @@ export function renderDeduction(root,ctx) {
     if(busy) return;
     const id=button.dataset.door;
     if (!ctx.game.chooseDoor(id)) { ctx.audio.play('error'); replayAnimation(button,'wrong-door'); root.querySelector('#door-feedback').textContent=CONFIG.doors.find(d=>d.id===id).feedback; return; }
-    busy=true; ctx.audio.play('correct'); button.classList.add('door-opening'); root.querySelector('#door-feedback').textContent='DESTINATION CONFIRMED. THE NEXT CHAPTER AWAITS.'; root.querySelectorAll('[data-door]').forEach(b=>b.disabled=true); ctx.updateChrome(); await animationDelay(850); ctx.audio.play('final'); ctx.render();
+    busy=true; ctx.audio.play('correct'); button.classList.add('door-opening'); root.querySelector('#door-feedback').textContent='DESTINATION CONFIRMED. THE NEXT CHAPTER AWAITS.'; root.querySelectorAll('[data-door]').forEach(b=>b.disabled=true); ctx.updateChrome(); await animationDelay(850);
+    if (!ctx.isActive()) return;
+    ctx.audio.play('final'); ctx.render();
   }));
 }

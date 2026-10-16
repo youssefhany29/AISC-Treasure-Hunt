@@ -1,3 +1,9 @@
+# Latest photo/replay release
+
+The current release passed **32/32 Node tests**, source-photo hash and pixel reconstruction checks, six-width Chromium touch/mouse QA with **three full complete/restart cycles per width**, and v2-to-v3 cached-client migration. The photo is now a plain **3 columns × 2 rows** reconstruction of the supplied image. See [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md) and [PUBLISHED_TEST_REPORT.json](PUBLISHED_TEST_REPORT.json).
+
+The following original-build results are retained as historical context.
+
 # CASE 02 — Validation report
 
 **Historical initial-release report.** The six-piece photo puzzle supersedes the three-fragment blueprint described below. Current puzzle implementation and verification are documented in [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md); [PUBLISHED_TEST_REPORT.json](PUBLISHED_TEST_REPORT.json) records the latest published run.

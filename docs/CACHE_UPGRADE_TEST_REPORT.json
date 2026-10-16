@@ -1,11 +1,11 @@
 {
-  "base": "http://127.0.0.1:4175/",
-  "upgrade": "v1 → v2 photo puzzle",
+  "base": "http://127.0.0.1:4175/case02/",
+  "upgrade": "v2 framed puzzle → v3 original photo and replay",
   "result": "PASS",
   "checks": [
-    "Real v1 cached client upgraded to v2",
+    "Real v2 cached client upgraded to v3",
     "Legacy clues/case/preferences retained",
     "New placements survive offline reload using upgraded cache",
-    "Legacy completed mission remains complete"
+    "Previously completed mission remains complete and can restart with sound retained"
   ]
 }

@@ -23,6 +23,7 @@ export function renderCafe(root, ctx) {
       if (current.evidence.length === 4) { root.querySelector('#cafe-next').innerHTML = nextHTML(true); root.querySelector('#cafe-next').classList.add('ready'); bindNext(); }
     }
     await animationDelay(340); inspecting = false;
+    if (!ctx.isActive()) return;
     if (fresh) ctx.audio.play('discover');
     showEvidence(id, ctx);
   }));

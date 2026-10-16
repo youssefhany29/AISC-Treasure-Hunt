@@ -19,7 +19,10 @@ export function sanitizeState(raw, random) {
   const legacyOrder = ['entrance', 'court', 'scoreboard'];
   const legacySolved = !raw.puzzle && envelopeOpened && raw.blueprintSolved === true &&
     Array.isArray(raw.fragments) && raw.fragments.length === 3 && raw.fragments.every((id, i) => id === legacyOrder[i]);
-  const puzzle = !envelopeOpened ? sanitizePuzzle(raw.puzzle ? { ...raw.puzzle, slots: [] } : null, random) : legacySolved ?
+  const previousPhotoSolved = raw.puzzle?.version === 2 && raw.blueprintSolved === true &&
+    Array.isArray(raw.puzzle.slots) && raw.puzzle.slots.length === pieceOrder.length &&
+    raw.puzzle.slots.every((id, i) => id === pieceOrder[i]);
+  const puzzle = !envelopeOpened ? sanitizePuzzle(raw.puzzle ? { ...raw.puzzle, slots: [] } : null, random) : legacySolved || previousPhotoSolved ?
     { version: CONFIG.puzzle.version, slots: [...pieceOrder], tray: [] } : sanitizePuzzle(raw.puzzle, random);
   const blueprintSolved = envelopeOpened && isPhotoPuzzleSolved(puzzle);
   const complete = blueprintSolved && raw.complete === true;

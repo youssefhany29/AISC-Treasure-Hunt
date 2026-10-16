@@ -99,7 +99,9 @@ try {
     assert.equal(await page.locator('.puzzle-slot').count(),6);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
     let order=await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece));assert.notDeepEqual(order,pieceIds);
     const geometry=await page.locator('.puzzle-slot').evaluateAll(slots=>slots.map(el=>{const r=el.getBoundingClientRect();return{x:Math.round(r.x),y:Math.round(r.y),w:r.width,h:r.height};}));
-    assert.equal(new Set(geometry.map(r=>r.x)).size,2);assert.equal(new Set(geometry.map(r=>r.y)).size,3);assert.ok(geometry.every(r=>Math.abs(r.w-r.h)<.6));
+    assert.equal(new Set(geometry.map(r=>r.x)).size,3);assert.equal(new Set(geometry.map(r=>r.y)).size,2);
+    assert.ok(geometry.every((r,i)=>Math.abs(r.w/r.h-164/(i<3?180:181))<.01),'Photo crop proportions retained');
+    assert.equal(await page.locator('.piece-ref').count(),0,'No added labels on photo tiles');
     const touch=width<600;
     await dragPiece(page,'k7','[data-slot="1"]',touch,true);assert.match(await page.locator('#blueprint-status').innerText(),/DON’T MATCH/);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
     assert.deepEqual(await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece)),order);
@@ -136,9 +138,40 @@ try {
       assert.match(await page.locator('.destination-card').innerText(),/SPOR SALONU/);summary.checks.push('Offline refresh and local asset loading passed');
       await context.setOffline(false);
     }
+    // Confirm/cancel from the result; then finish and restart two more times.
+    await page.locator('#sound-toggle').click();
+    const sound=await page.locator('#sound-toggle').getAttribute('aria-pressed');
+    await page.evaluate(()=>localStorage.setItem('unrelated.browser.data','keep me'));
+    let navigations=0;page.on('framenavigated',frame=>{if(frame===page.mainFrame())navigations++;});
+    for(let run=0;run<3;run++){
+      await page.locator('#play-again').click();
+      assert.equal(await page.locator('#modal-title').innerText(),'Restart the mission from the beginning?');
+      await page.locator('[data-close]').click();
+      assert.equal(await page.locator('.completion').count(),1,'Cancel keeps completed mission');
+      await page.locator('#play-again').click();await page.locator('#confirm-restart').click();
+      await page.locator('#begin').waitFor();
+      assert.equal(navigations,0,'Restart requires no navigation or refresh');
+      assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),sound);
+      const reset=await page.evaluate(()=>({state:JSON.parse(localStorage.getItem('treasureHunt.case02.v1')),other:localStorage.getItem('unrelated.browser.data')}));
+      assert.equal(reset.other,'keep me');assert.equal(reset.state.stage,'intro');assert.equal(reset.state.complete,false);
+      assert.deepEqual(reset.state.evidence,[]);assert.deepEqual(reset.state.puzzle.slots,Array(6).fill(null));
+      assert.equal(reset.state.lockSolved,false);assert.equal(reset.state.envelopeOpened,false);assert.equal(reset.state.blueprintSolved,false);assert.deepEqual(reset.state.hints,[]);
+      if(run===2)break;
+      await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
+      for(const id of ['receipt','cup','napkin','coaster']){
+        await page.locator(`[data-object="${id}"]`).click();await page.locator('dialog[open]').waitFor();await page.locator('[data-close]').click();
+      }
+      await page.locator('#open-case').click();await page.locator('.keypad').waitFor();
+      for(const key of ['6','8','1','3'])await page.locator(`[data-key="${key}"]`).click();
+      await page.locator('#unlock').click();await page.locator('#envelope').waitFor();await page.locator('#envelope').click();await page.locator('#puzzle-board').waitFor();
+      assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
+      for(let i=0;i<6;i++)await dragPiece(page,pieceIds[i],`[data-slot="${i}"]`,touch);
+      await page.locator('.doors').waitFor();await page.locator('[data-door="D"]').click();await page.locator('.completion').waitFor();
+    }
+    await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
     assert.deepEqual(issues,[],`${width}: browser errors`);
-    summary.widths.push({width,result:'PASS',flow:'intro → cafe → lock → envelope → six-piece photo → deduction → complete',dragging:touch?'real touch events':'mouse',screens:8,logo:'intro and complete only',overflow:'none',consoleErrors:0});
-    console.log(`PASS ${width}px: ${touch?'touch':'mouse'} dragging, wrong/correct drops, moving placed tiles, canceled drags, keyboard placement, saves and automatic progression.`);
+    summary.widths.push({width,result:'PASS',flow:'three complete playthroughs, each restarted, then start again',restart:'confirmed and canceled, no refresh, sound and unrelated storage retained',puzzle:'original photograph, 3 columns × 2 rows',dragging:touch?'real touch events':'mouse',screens:8,logo:'intro and complete only',overflow:'none',consoleErrors:0});
+    console.log(`PASS ${width}px: ${touch?'touch':'mouse'} dragging and three full complete/restart cycles without navigation.`);
     await context.close();
   }
   // Corrupted storage and disabled browser APIs must degrade safely in the real UI.
@@ -146,8 +179,45 @@ try {
   await page.addInitScript(()=>{Object.defineProperty(window,'AudioContext',{value:undefined});Object.defineProperty(window,'webkitAudioContext',{value:undefined});});
   await page.goto(base,{waitUntil:'networkidle'});await page.evaluate(()=>localStorage.setItem('treasureHunt.case02.v1','{corrupt'));await page.reload();await page.locator('#begin').waitFor();await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
   await page.locator('#sound-toggle').click();assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),'false');await page.reload();assert.match(await page.locator('#sound-label').innerText(),/OFF/);
-  await page.locator('#organizer').click();await page.locator('.reset-details summary').click();await page.locator('#confirm-reset').click();await page.locator('#begin').waitFor();assert.equal(await page.locator('.aisc-logo').count(),1);
-  summary.checks.push('Corrupted save recovery, unavailable AudioContext, saved mute preference, organizer reset');await ctx.close();
+  await page.locator('#organizer').click();await page.locator('#restart-mission').click();await page.locator('#confirm-restart').click();await page.locator('#begin').waitFor();assert.equal(await page.locator('.aisc-logo').count(),1);
+  assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),'false');
+  // Restart every stage, including during the pending puzzle completion timer.
+  for(const stage of ['cafe','lock','blueprint','deduction']){
+    await page.evaluate(async stage=>{
+      const {createGame}=await import('./js/game-state.js');const {pieceOrder}=await import('./js/config.js');
+      const g=createGame(localStorage);g.reset();g.start();
+      if(stage!=='cafe'){for(const id of ['receipt','cup','napkin','coaster'])g.collect(id);g.openLock();}
+      if(['blueprint','deduction'].includes(stage)){g.unlock('6813');g.openEnvelope();}
+      if(stage==='deduction'){pieceOrder.forEach((id,i)=>g.placePiece(id,i));g.openDeduction();}
+    },stage);
+    await page.reload({waitUntil:'networkidle'});
+    await page.waitForFunction(()=>document.querySelector('#main')?.getAttribute('aria-busy')==='false');
+    if(stage==='blueprint'){
+      for(let i=0;i<6;i++)await dragPiece(page,pieceIds[i],`[data-slot="${i}"]`);
+      await page.locator('#puzzle-board.restored').waitFor();
+    }
+    await page.locator('#organizer').click();await page.locator('#restart-mission').click();await page.locator('[data-close]').click();
+    assert.equal(await page.locator('#begin').count(),0,'Cancel preserves current stage');
+    await page.locator('#organizer').click();await page.locator('#restart-mission').click();await page.locator('#confirm-restart').click();
+    await page.locator('#begin').waitFor();await page.waitForTimeout(2400);
+    assert.equal(await page.locator('#begin').count(),1,'Old stage timers cannot advance a restarted mission');
+    assert.equal(await page.locator('dialog[open]').count(),0);
+    assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),'false');
+  }
+  await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
+  // Create a deterministic overlap before the 340ms clue animation ends.
+  // Reduced motion has a zero-delay timer, so separate automation clicks
+  // would open the evidence dialog before the restart can even be requested.
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.evaluate(()=>{
+    document.querySelector('[data-object="receipt"]').click();
+    document.querySelector('#organizer').click();
+    document.querySelector('#restart-mission').click();
+    document.querySelector('#confirm-restart').click();
+  });
+  await page.locator('#begin').waitFor();await page.waitForTimeout(700);
+  assert.equal(await page.locator('dialog[open]').count(),0,'A delayed evidence dialog cannot reopen after restart');
+  summary.checks.push('Corrupt save, unavailable audio, saved mute, settings restart at every stage, cancel, pending puzzle and evidence animation cancellation');await ctx.close();
   summary.result='PASS';
 }catch(error){summary.result='FAIL';summary.errors.push(error.stack);console.error(error);process.exitCode=1;}
 finally{await writeFile(path.join(output,'report.json'),JSON.stringify(summary,null,2));await browser.close();console.log(`Browser report: ${path.join(output,'report.json')}`);}

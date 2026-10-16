@@ -50,7 +50,7 @@ The game scene and prop SVG illustrations authored locally for CASE 02 are origi
 
 `assets/images/puzzle/indoor-sports-hall.png` is the exact sports hall image supplied by the user for this game update. It is a separate user-provided asset, not Kenney artwork or a generated recreation. Original dimensions: **492 × 361**. SHA-256: `6da34c8cdfdf39d1e305de627a90ab1c7e909af17f59ba84b914a443ab98bc9e`.
 
-`scripts/generate-photo-tiles.py` copies all source pixels unchanged into a portrait evidence frame and makes six **246 × 246** lossless square crops for the **2 × 3** board. No part of the photo is cropped, stretched, recolored, or synthesized. Only the surrounding evidence frame is drawn locally. `source-manifest.json` records dimensions and exact crop positions; `tests/verify-photo-tiles.py` checks source identity and pixel-perfect reconstruction. The previous floorplan SVG is retained as original legacy artwork but is no longer the puzzle source or deduction preview.
+`scripts/generate-photo-tiles.py` makes six lossless rectangular crops directly from the photo for a **3 columns × 2 rows** board. The assembled result is exactly the original **492 × 361** image. Top-row tiles are **164 × 180**, bottom-row tiles **164 × 181**. No frame, labels, illustrations, resizing, filters or replacement imagery are added. `source-manifest.json` records exact crop boundaries; `tests/verify-photo-tiles.py` verifies source identity and pixel-perfect reconstruction. The previous floorplan SVG remains unused legacy artwork.
 
 ## Acquisition and verification
 

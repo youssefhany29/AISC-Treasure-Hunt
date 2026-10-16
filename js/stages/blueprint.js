@@ -11,12 +11,12 @@ export function renderBlueprint(root, ctx) {
 
   root.innerHTML = `<section class="stage-enter photo-puzzle-stage">
     ${stageHeading('03', CONFIG.text.blueprintTitle, CONFIG.text.blueprintObjective, ctx)}
-    <div class="blueprint-workspace photo-puzzle-workspace">
-      <div class="blueprint-toolbar"><span><i class="live-dot" aria-hidden="true"></i> RECOVERED EVIDENCE / FRAME 02</span><span>6 SQUARE PIECES · 2 × 3</span></div>
+    <div class="photo-puzzle-workspace">
+      <div class="blueprint-toolbar"><span><i class="live-dot" aria-hidden="true"></i> RECOVERED PHOTOGRAPH</span><span>6 PHOTO PIECES · 3 × 2</span></div>
       <p class="photo-puzzle-instructions">Drag a piece into a slot. Match the image edges.<small>Or select a piece, then tap a slot. Keyboard: Tab, Enter or Space.</small></p>
       <div class="photo-puzzle-layout" id="photo-puzzle-layout">
         <div class="puzzle-board-area"><div class="puzzle-area-label"><span>TARGET BOARD</span><span id="placed-count">0 / 6</span></div>
-          <div class="puzzle-board" id="puzzle-board" role="group" aria-label="Empty photo puzzle target board, two columns and three rows"></div>
+          <div class="puzzle-board" id="puzzle-board" role="group" aria-label="Empty photo puzzle target board, three columns and two rows"></div>
           <p class="board-caption">RECONSTRUCT THE MISSING IMAGE</p>
         </div>
         <div class="puzzle-tray-area"><div class="puzzle-area-label"><span>PIECES</span><span aria-hidden="true">↔</span></div>
@@ -24,7 +24,7 @@ export function renderBlueprint(root, ctx) {
           <button class="text-button puzzle-return" id="return-piece" type="button" disabled>Return selected piece to tray</button>
         </div>
       </div>
-      <div class="photo-puzzle-footer"><div><p id="blueprint-status" class="eyebrow" role="status" aria-live="polite">THE IMAGE HOLDS THE ANSWER</p><p id="blueprint-message">Pick up a piece and follow the court lines and frame edges.</p></div>
+      <div class="photo-puzzle-footer"><div><p id="blueprint-status" class="eyebrow" role="status" aria-live="polite">THE IMAGE HOLDS THE ANSWER</p><p id="blueprint-message">Pick up a piece and follow the court lines, railings and image edges.</p></div>
         <button id="deduce" class="primary-button" type="button" hidden>CONTINUE ${arrow}</button>
       </div>
     </div>
@@ -41,14 +41,14 @@ export function renderBlueprint(root, ctx) {
 
   function tileHTML(id, solved) {
     const piece = CONFIG.puzzle.pieces.find(p => p.id === id);
-    return `<button class="puzzle-piece ${selected === id ? 'selected' : ''}" data-piece="${id}" type="button" aria-label="Photo piece ${piece.label}${selected === id ? ', selected' : ''}" aria-pressed="${selected === id}" ${solved ? 'disabled' : ''}><img src="${piece.image}" width="246" height="246" alt="" draggable="false"><span class="piece-ref" aria-hidden="true">${piece.label}</span></button>`;
+    return `<button class="puzzle-piece ${selected === id ? 'selected' : ''}" data-piece="${id}" style="--tile-ratio:${piece.width}/${piece.height}" type="button" aria-label="Photo piece ${piece.label}${selected === id ? ', selected' : ''}" aria-pressed="${selected === id}" ${solved ? 'disabled' : ''}><img src="${piece.image}" width="${piece.width}" height="${piece.height}" alt="" draggable="false"></button>`;
   }
 
   function draw(justPlaced) {
     const state = ctx.game.get();
     board.classList.toggle('restored', state.blueprintSolved);
-    board.setAttribute('aria-label', state.blueprintSolved ? 'Completed sports hall photo puzzle' : 'Photo puzzle target board, two columns and three rows');
-    board.innerHTML = state.puzzle.slots.map((id, index) => `<div class="puzzle-slot ${id ? 'occupied' : ''} ${id === justPlaced ? 'just-placed' : ''}" data-slot="${index}">${id ? tileHTML(id, state.blueprintSolved) : `<button class="slot-target" data-place="${index}" type="button" aria-label="Place selected piece in row ${Math.floor(index / 2) + 1}, column ${index % 2 + 1}"><span aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><span class="slot-corners" aria-hidden="true"></span></button>`}</div>`).join('');
+    board.setAttribute('aria-label', state.blueprintSolved ? 'Completed sports hall photo puzzle' : 'Photo puzzle target board, three columns and two rows');
+    board.innerHTML = state.puzzle.slots.map((id, index) => `<div class="puzzle-slot ${id ? 'occupied' : ''} ${id === justPlaced ? 'just-placed' : ''}" data-slot="${index}" style="--tile-ratio:${CONFIG.puzzle.pieces[index].width}/${CONFIG.puzzle.pieces[index].height}">${id ? tileHTML(id, state.blueprintSolved) : `<button class="slot-target" data-place="${index}" type="button" aria-label="Place selected piece in row ${Math.floor(index / CONFIG.puzzle.columns) + 1}, column ${index % CONFIG.puzzle.columns + 1}"><span aria-hidden="true">${String(index + 1).padStart(2, '0')}</span><span class="slot-corners" aria-hidden="true"></span></button>`}</div>`).join('');
     tray.innerHTML = state.puzzle.tray.length ? state.puzzle.tray.map(id => tileHTML(id, false)).join('') : '<p class="tray-empty">ALL PIECES<br>RECOVERED <span aria-hidden="true">✓</span></p>';
     root.querySelector('#placed-count').textContent = `${state.puzzle.slots.filter(Boolean).length} / 6`;
     returnButton.disabled = !selected || state.blueprintSolved;
@@ -66,7 +66,7 @@ export function renderBlueprint(root, ctx) {
     draw();
     status.className = 'eyebrow';
     status.textContent = selected ? 'PIECE SELECTED' : 'THE IMAGE HOLDS THE ANSWER';
-    message.textContent = selected ? 'Now choose a slot, or drag the piece into place.' : 'Pick up a piece and follow the court lines and frame edges.';
+    message.textContent = selected ? 'Now choose a slot, or drag the piece into place.' : 'Pick up a piece and follow the court lines, railings and image edges.';
     layout.querySelector(`[data-piece="${id}"]`)?.focus({ preventScroll: true });
   }
 
