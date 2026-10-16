@@ -1,4 +1,4 @@
-# Warm Vintage Detective â€” Olive & Cream
+# Warm Vintage Detective — Olive & Cream
 
 The entire interface uses the shared palette in `css/theme.css`. Backgrounds are cream, surfaces are warm off-white, headings are deep olive, and body text and interactive outlines are olive. `#FAEBD7` text appears on dark olive surfaces. `#D8C39F` borders divide decorative surfaces; controls use stronger olive borders and focus rings.
 
