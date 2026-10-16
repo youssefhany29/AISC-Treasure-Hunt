@@ -1,0 +1,11 @@
+{
+  "base": "http://127.0.0.1:4175/case02/",
+  "upgrade": "v3 photo/replay → v4 olive/cream",
+  "result": "PASS",
+  "checks": [
+    "Real v3 cache upgraded to v4",
+    "Entire saved state unchanged, including partial photo positions/tray and muted sound",
+    "Unrelated storage/cache retained",
+    "New cream theme and original images work after offline reload"
+  ]
+}

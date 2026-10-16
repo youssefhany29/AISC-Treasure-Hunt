@@ -42,6 +42,8 @@ Kenney's included licenses permit personal, educational, and commercial use, wit
 
 The game scene and prop SVG illustrations authored locally for CASE 02 are original project artwork. They are separate from Kenney's downloaded assets.
 
+`assets/images/ui/case-mark-olive.svg` is the project-authored olive/cream browser favicon. Existing scene imagery, photo tiles and official AISC branding remain unchanged by the interface theme update.
+
 ## Official AISC branding
 
 `assets/images/aisc-logo.png` is the official **AISC — International Students Club** logo supplied by the user. It is a separate user-provided brand asset, not a Kenney or CC0 asset. Retain its original colors, proportions, and details. Display it only on the intro and Mission Complete screens.

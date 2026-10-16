@@ -1,6 +1,6 @@
 /* Static offline cache. Increment CACHE after changing a deployed release. */
-importScripts('./asset-manifest.js?v=photo-replay-3');
-const CACHE='case02-static-v3-photo-replay';
+importScripts('./asset-manifest.js?v=olive-cream-4');
+const CACHE='case02-static-v4-olive-cream';
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);

@@ -1,0 +1,38 @@
+/* Warm Vintage Detective — all interface colors are maintained here.
+ * Cream text belongs on olive surfaces. Beige borders are decorative;
+ * controls, focus rings and puzzle targets use the stronger olive border.
+ * The official AISC logo and original scene/photo assets are not filtered.
+ */
+:root {
+  color-scheme: light;
+  --color-background: #FAF0E6;
+  --color-secondary: #FFE4B5;
+  --color-olive: #556B2F;
+  --color-on-olive: #FAEBD7;
+  --color-heading: #34421E;
+  --color-border: #D8C39F;
+  --color-surface: #FFF9F0;
+  --color-hover: #475B27;
+
+  --color-ink: var(--color-olive);
+  --color-text-muted: var(--color-olive);
+  --color-control-border: var(--color-olive);
+  --color-focus: var(--color-heading);
+  --color-success: var(--color-olive);
+  --color-error: var(--color-heading);
+  --color-logo-mat: #FFFFFF;
+
+  --color-shadow: rgba(52, 66, 30, .18);
+  --color-shadow-soft: rgba(52, 66, 30, .09);
+  --color-shadow-strong: rgba(52, 66, 30, .28);
+  --color-backdrop: rgba(52, 66, 30, .55);
+  --color-olive-wash: rgba(85, 107, 47, .12);
+  --color-secondary-glow: rgba(255, 228, 181, .32);
+  --color-paper-wash: rgba(255, 249, 240, .94);
+  --color-paper-grain: rgba(85, 107, 47, .025);
+  --color-transparent: rgba(52, 66, 30, 0);
+  --shadow-control: 0 4px 16px var(--color-shadow-soft);
+  --shadow-card: 0 12px 32px var(--color-shadow-soft);
+  --shadow-raised: 0 16px 40px var(--color-shadow);
+  --shadow-dialog: 0 24px 72px var(--color-shadow-strong);
+}

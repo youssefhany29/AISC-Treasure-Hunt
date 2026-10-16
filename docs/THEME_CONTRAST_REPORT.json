@@ -1,0 +1,110 @@
+{
+  "base": "http://127.0.0.1:4174/case02/",
+  "engine": "Chromium",
+  "checker": "axe-core color-contrast",
+  "paletteContrast": [
+    {
+      "foreground": "ink",
+      "background": "background",
+      "ratio": 5.288792171298336,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "ink",
+      "background": "secondary",
+      "ratio": 4.820042053576267,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "ink",
+      "background": "surface",
+      "ratio": 5.682250377274086,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "on-olive",
+      "background": "olive",
+      "ratio": 5.078594691895311,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "on-olive",
+      "background": "hover",
+      "ratio": 6.417909814157766,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "on-olive",
+      "background": "heading",
+      "ratio": 9.222718087240247,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "heading",
+      "background": "border",
+      "ratio": 6.289186493239604,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "ink",
+      "background": "worst-case textured surface",
+      "ratio": 4.97518997173858,
+      "minimum": 4.5
+    },
+    {
+      "foreground": "control-border",
+      "background": "secondary",
+      "ratio": 4.820042053576267,
+      "minimum": 3
+    },
+    {
+      "foreground": "focus",
+      "background": "background",
+      "ratio": 9.60443630119347,
+      "minimum": 3
+    }
+  ],
+  "result": "PASS",
+  "errors": [],
+  "views": 147,
+  "computedTextNodes": 3436,
+  "minimumComputedContrast": 4.820042053576267,
+  "widths": [
+    {
+      "width": 320,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 375,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 430,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 768,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 1024,
+      "views": 21,
+      "result": "PASS"
+    },
+    {
+      "width": 1440,
+      "views": 21,
+      "result": "PASS"
+    }
+  ],
+  "manualReview": "Original imagery, textured/gradient surfaces, decorative overlap and single characters were checked visually and through conservative palette bounds; raw axe incomplete nodes remain in the ignored full report."
+}

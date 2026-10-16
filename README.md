@@ -4,6 +4,8 @@ A complete mobile-first, browser-based mystery for the AISC treasure hunt. Parti
 
 **[Play the published game](https://youssefhany29.github.io/AISC-Treasure-Hunt/)** · [Public source repository](https://github.com/youssefhany29/AISC-Treasure-Hunt) · [Deployment verification](docs/DEPLOYMENT.md)
 
+The **Warm Vintage Detective / Olive & Cream** interface uses centralized color and shadow variables in `css/theme.css`, with cream surfaces, olive controls, readable contrast and a matching browser theme/favicon. Original scene artwork, sports hall photo, audio and the official AISC logo retain their source colors. See [theme details and contrast verification](docs/OLIVE_THEME.md).
+
 ## Run locally
 
 Requires **Node.js 20+** for the preview server and tests. The game itself needs only a modern browser.
