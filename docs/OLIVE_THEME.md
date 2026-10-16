@@ -1,4 +1,4 @@
-# Warm Vintage Detective — Olive & Cream
+# Warm Vintage Detective â€” Olive & Cream
 
 The entire interface uses the shared palette in `css/theme.css`. Backgrounds are cream, surfaces are warm off-white, headings are deep olive, and body text and interactive outlines are olive. `#FAEBD7` text appears on dark olive surfaces. `#D8C39F` borders divide decorative surfaces; controls use stronger olive borders and focus rings.
 
@@ -40,8 +40,9 @@ Axe's uncertain cases (original pictures, gradients, overlapping decorative bord
 - All **40 existing asset files** and every gameplay JavaScript file were verified byte-for-byte unchanged. Only the standalone themed favicon is new. The official AISC logo retains its original pixels, colors, proportions, placement and fade animation; source photos and scene illustrations retain their original colors.
 - **32 existing logic tests**, the asset validator, and exact sports-hall photo/tile verification passed.
 - Six-width local browser tests passed **18 complete/restart cycles**, touch/mouse dragging, persistence, audio decoding, offline refresh and replay.
-- A short **390 � 640** normal-animation run also passed three complete/restart cycles and pending-transition cancellation.
+- A short **390 × 640** normal-animation run also passed three complete/restart cycles and pending-transition cancellation.
 - A real v3 offline cache upgraded to `case02-static-v4-olive-cream` while retaining the entire saved state (partial placements, tray order, evidence, unlocked case, hints, stage and mute preference), unrelated storage/cache and offline image loading.
+- Public verification passed **42 contrast/screen checks** and **six full complete/restart cycles** at 390 and 1024px, including settings resets, saved positions, offline gameplay and all 11 audio decodes. Published CSS matches the tested sources after normalizing Git line endings; the original logo/photo match exactly. See [public theme audit](THEME_PUBLISHED_REPORT.json) and [public gameplay report](PUBLISHED_TEST_REPORT.json).
 - Browser tests use Chromium touch emulation. Physical iPhone Safari and Android Chrome remain device checks.
 
 The static runtime has no new dependencies. For the optional visual checker, install Playwright and axe-core locally or set `PLAYWRIGHT_MODULE_PATH` and `AXE_PATH`, start the preview, then run `node scripts/theme-audit.mjs`. The checker and screenshots are not shipped to participants. `BASE_URL` selects a public deployment; `AUDIT_WIDTHS` and `AUDIT_LABEL` support targeted review. Full reports/screenshots are written to ignored `test-results/`.
