@@ -1,0 +1,14 @@
+{
+  "name": "case-02-the-lost-destination",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A mobile-first, offline-ready detective treasure hunt for AISC.",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node scripts/browser-test.mjs",
+    "validate": "node scripts/validate-assets.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

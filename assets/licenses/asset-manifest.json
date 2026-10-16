@@ -1,0 +1,193 @@
+{
+  "verifiedDate": "2026-10-16",
+  "license": "CC0-1.0",
+  "author": "Kenney",
+  "soundSource": {
+    "page": "https://kenney.nl/assets/interface-sounds",
+    "download": "https://kenney.nl/media/pages/assets/interface-sounds/fa43c1dd4d-1677589452/kenney_interface-sounds.zip",
+    "archiveBytes": 834536,
+    "archiveSha256": "F2193D072726D6758A5F7871B2DCC54DCCE0D5C35C6F0A62F92549B327C81232"
+  },
+  "visualSource": {
+    "page": "https://kenney.nl/assets/ui-pack-adventure",
+    "download": "https://kenney.nl/media/pages/assets/ui-pack-adventure/9a877376bc-1723597274/kenney_ui-pack-adventure.zip",
+    "archiveBytes": 577463,
+    "archiveSha256": "982E8AB66842509EE9214F9C2038E594CBE029F19D1DC177FECAAD3B41A67ED3"
+  },
+  "audio": [
+    {
+      "path": "assets/sounds/ui-click.wav",
+      "original": "Audio/click_001.ogg",
+      "bytes": 8644,
+      "durationSeconds": 0.09712,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -1.4,
+      "meanDb": -26.4,
+      "sha256": "D740C9EDB370BE6196FA59803B36E640A7057C71CA310C4081B0672E50567027"
+    },
+    {
+      "path": "assets/sounds/evidence-select.wav",
+      "original": "Audio/select_001.ogg",
+      "bytes": 7202,
+      "durationSeconds": 0.040385,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 2,
+      "peakDb": -1.1,
+      "meanDb": -17.3,
+      "sha256": "309470A5F9B721142A7FEDEBB11964428A211B8190DACE1AC5CE8632122B4834"
+    },
+    {
+      "path": "assets/sounds/tile-place.wav",
+      "original": "Audio/drop_001.ogg",
+      "bytes": 23374,
+      "durationSeconds": 0.132063,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 2,
+      "peakDb": -0.9,
+      "meanDb": -21.2,
+      "sha256": "1387446DAD92F09E05CCD355292D276C25949BF5EFEF0AF513F11A099C7FF994"
+    },
+    {
+      "path": "assets/sounds/puzzle-success.wav",
+      "original": "Audio/confirmation_001.ogg",
+      "bytes": 25642,
+      "durationSeconds": 0.289841,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -0.9,
+      "meanDb": -11.3,
+      "sha256": "77AF33AAF39E72BB62E563BFC0BF3B8A629D5CC18EFA6F9DAC989E57B0D94C23"
+    },
+    {
+      "path": "assets/sounds/answer-error.wav",
+      "original": "Audio/error_001.ogg",
+      "bytes": 28594,
+      "durationSeconds": 0.161655,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 2,
+      "peakDb": -0.8,
+      "meanDb": -19.0,
+      "sha256": "859ACC4596E3795E2B3AFF9DCCD6D680A6897CD51AF01F139F6938DB6912F67D"
+    },
+    {
+      "path": "assets/sounds/case-open.wav",
+      "original": "Audio/open_001.ogg",
+      "bytes": 13112,
+      "durationSeconds": 0.147778,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -0.9,
+      "meanDb": -14.8,
+      "sha256": "5F928841C19076E104BF187B50AF5E48736AD00E146503F33D3DA6F2771901FE"
+    },
+    {
+      "path": "assets/sounds/case-close.wav",
+      "original": "Audio/close_001.ogg",
+      "bytes": 13112,
+      "durationSeconds": 0.147778,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -0.9,
+      "meanDb": -14.8,
+      "sha256": "46C03BCE998987288B16155EAF7A3DFA8A0DE366DDCE040C60223769F32A845C"
+    },
+    {
+      "path": "assets/sounds/paper-slide.wav",
+      "original": "Audio/scroll_001.ogg",
+      "bytes": 88280,
+      "durationSeconds": 1.000023,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -0.9,
+      "meanDb": -21.2,
+      "sha256": "5A786FD82B5C2FDFFF7D27D8549D97638A4EEBCA24636FD5656F5C3AC0119711"
+    },
+    {
+      "path": "assets/sounds/paper-rustle.wav",
+      "original": "Audio/scratch_001.ogg",
+      "bytes": 12366,
+      "durationSeconds": 0.13932,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -0.9,
+      "meanDb": -12.3,
+      "sha256": "F813C8F7A6E7F8407C943E3195F44B85AC2491D9ECBD7189FD13ACB31386EB29"
+    },
+    {
+      "path": "assets/sounds/lock-click.wav",
+      "original": "Audio/switch_001.ogg",
+      "bytes": 108522,
+      "durationSeconds": 0.614762,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 2,
+      "peakDb": -1.0,
+      "meanDb": -27.3,
+      "sha256": "06D4E8F224AE0F1062D2F724B2083F0FE3F14ED8C6D9587775B47A3C70BF0B6E"
+    },
+    {
+      "path": "assets/sounds/clue-reveal.wav",
+      "original": "Audio/maximize_001.ogg",
+      "bytes": 22868,
+      "durationSeconds": 0.25839,
+      "codec": "pcm_s16le",
+      "sampleRate": 44100,
+      "channels": 1,
+      "peakDb": -1.0,
+      "meanDb": -13.0,
+      "sha256": "9A2E98612448E89EBFEBC085EA3FDAC2F59ABD19AA72FDD02B58D48EBB379890"
+    }
+  ],
+  "images": [
+    {
+      "path": "assets/images/ui/paper.png",
+      "original": "PNG/Double/pattern_grid_paper.png",
+      "bytes": 115,
+      "width": 64,
+      "height": 64,
+      "codec": "png",
+      "unmodified": true,
+      "sha256": "131803AAB203F0615FED9B924BBD4158B86B380D40466781985AA4B1AA671E68"
+    },
+    {
+      "path": "assets/images/ui/panel_grid_paper.png",
+      "original": "PNG/Double/panel_grid_paper.png",
+      "bytes": 765,
+      "width": 128,
+      "height": 128,
+      "codec": "png",
+      "unmodified": true,
+      "sha256": "BB1BE4616179A1784A90476C4CAA1BD2855983B3FCF9797E72326C9F0A3D3267"
+    },
+    {
+      "path": "assets/images/ui/pattern_grid_blueprint.png",
+      "original": "PNG/Double/pattern_grid_blueprint.png",
+      "bytes": 115,
+      "width": 64,
+      "height": 64,
+      "codec": "png",
+      "unmodified": true,
+      "sha256": "6BE9A0DC1B8B364F8D795B3A6706FCCA5D133B63A9A04F9B022A78DD802A899D"
+    },
+    {
+      "path": "assets/images/ui/panel_grid_blueprint.png",
+      "original": "PNG/Double/panel_grid_blueprint.png",
+      "bytes": 762,
+      "width": 128,
+      "height": 128,
+      "codec": "png",
+      "unmodified": true,
+      "sha256": "F4884D3CDE0D348037E7BD1ECCD296A48188D342BA406414C6068D24C1F4C388"
+    }
+  ]
+}
