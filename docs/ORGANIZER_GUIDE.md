@@ -9,7 +9,7 @@ Expected play time: 3–5 minutes. Medium difficulty. Participants start at the 
 - Folded napkin: **■ = 6**
 - Reverse of coaster: **★ = 1**
 - Lock order: **■ ▲ ★ ●**; unlock sequence **6813**.
-- Blueprint: **entrance → indoor court → scoreboard and spectator stands**. Select two fragments to swap. Pieces are crops from `assets/images/blueprint/continuous.svg`, with real continuous lines across seams.
+- Photo puzzle: place the six pieces into **2 columns × 3 rows**. Correct rows are **K7 / M2**, **R9 / C4**, **N6 / F1**. Drag with a mouse or touch; incorrect drops return safely. Placed pieces can return to the tray. Keyboard/tap alternative: select a piece, then a slot. All six correct placements automatically continue to the deduction. The exact supplied photo and original pixels are preserved in the framed image and generated tiles.
 - Final answer: **Door D — Indoor Sports Hall**.
 - Mission Complete reveals **SPOR SALONU**. No location address or unverified map is invented.
 

@@ -30,7 +30,7 @@ function updateChrome() {
   const toggle=document.querySelector('#sound-toggle'); toggle.hidden=!CONFIG.ENABLE_SOUND;
   toggle.setAttribute('aria-pressed',String(state.sound)); document.querySelector('#sound-label').textContent=state.sound?'SOUND ON':'SOUND OFF'; toggle.classList.toggle('muted-sound',!state.sound);
   const progress=document.querySelector('#progress'); progress.hidden=!CONFIG.SHOW_PROGRESS||state.stage==='intro'||state.complete;
-  const stages=['cafe','lock','blueprint','deduction']; const labels=['CAFE EVIDENCE','SECURITY CODE','BLUEPRINT','FINAL DEDUCTION'];
+  const stages=['cafe','lock','blueprint','deduction']; const labels=['CAFE EVIDENCE','SECURITY CODE','PHOTO PUZZLE','FINAL DEDUCTION'];
   const active=stages.indexOf(state.stage);
   progress.innerHTML=stages.map((id,i)=>`<div class="progress-step ${i===active?'current':i<active?'done':''}" ${i===active?'aria-current="step"':''}><span class="step-dot">${i<active?'✓':String(i+1).padStart(2,'0')}</span><span class="step-label">${labels[i]}</span></div>`).join('');
   const footerStatus=document.querySelector('.footer-status');
@@ -39,7 +39,7 @@ function updateChrome() {
 function stageAssets(stage) {
   if(stage==='intro')return [CONFIG.assets.dossier,CONFIG.assets.logo];
   if(stage==='cafe')return [CONFIG.assets.desk,...CONFIG.evidence.map(e=>e.image)];
-  if(stage==='blueprint')return [CONFIG.assets.blueprint];
+  if(stage==='blueprint')return [CONFIG.puzzle.image,...CONFIG.puzzle.pieces.map(piece=>piece.image)];
   if(stage==='deduction')return [CONFIG.assets.blueprint,...CONFIG.doors.map(d=>d.image)];
   if(stage==='complete')return [CONFIG.assets.hall,CONFIG.assets.logo];
   return [];
@@ -76,5 +76,5 @@ render();
 // All static resources are cached after the first successful visit. The worker
 // is relative to this directory, so repository subpaths work on GitHub Pages.
 if ('serviceWorker' in navigator && (location.protocol==='https:' || ['localhost','127.0.0.1'].includes(location.hostname))) {
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).catch(()=>{}));
 }

@@ -1,5 +1,7 @@
 # CASE 02 — Validation report
 
+**Historical initial-release report.** The six-piece photo puzzle supersedes the three-fragment blueprint described below. Current puzzle implementation and verification are documented in [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md); [PUBLISHED_TEST_REPORT.json](PUBLISHED_TEST_REPORT.json) records the latest published run.
+
 Verified **16 October 2026**. Complete implementation; no gameplay features remain as placeholders.
 
 ## Executed checks

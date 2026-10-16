@@ -46,6 +46,12 @@ The game scene and prop SVG illustrations authored locally for CASE 02 are origi
 
 `assets/images/aisc-logo.png` is the official **AISC — International Students Club** logo supplied by the user. It is a separate user-provided brand asset, not a Kenney or CC0 asset. Retain its original colors, proportions, and details. Display it only on the intro and Mission Complete screens.
 
+## User-supplied sports hall photograph and puzzle tiles
+
+`assets/images/puzzle/indoor-sports-hall.png` is the exact sports hall image supplied by the user for this game update. It is a separate user-provided asset, not Kenney artwork or a generated recreation. Original dimensions: **492 × 361**. SHA-256: `6da34c8cdfdf39d1e305de627a90ab1c7e909af17f59ba84b914a443ab98bc9e`.
+
+`scripts/generate-photo-tiles.py` copies all source pixels unchanged into a portrait evidence frame and makes six **246 × 246** lossless square crops for the **2 × 3** board. No part of the photo is cropped, stretched, recolored, or synthesized. Only the surrounding evidence frame is drawn locally. `source-manifest.json` records dimensions and exact crop positions; `tests/verify-photo-tiles.py` checks source identity and pixel-perfect reconstruction. The previous floorplan SVG is retained as original legacy artwork but is no longer the puzzle source or deduction preview.
+
 ## Acquisition and verification
 
 Downloaded from the official sources and verified on 16 October 2026. Both ZIP archives extracted successfully. All 11 WAV files were decoded and inspected with FFprobe and FFmpeg volume analysis (nonzero PCM signal confirmed); all four PNG files were inspected for valid PNG format and dimensions. `assets/licenses/asset-manifest.json` records local file sizes, durations/dimensions, source filenames, and archive SHA-256 hashes.

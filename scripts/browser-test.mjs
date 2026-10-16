@@ -16,9 +16,31 @@ const browser=await playwright.chromium.launch({headless:true,...(chrome?{execut
 const summary={base,engine:'Chromium',widths:[],checks:[],errors:[]};
 const widths=process.env.TEST_WIDTHS ? process.env.TEST_WIDTHS.split(',').map(Number) : [320,375,390,430,768,1024];
 const motion=process.env.TEST_REDUCED_MOTION==='false'?'no-preference':'reduce';
+const pieceIds=['k7','m2','r9','c4','n6','f1'];
+
+async function dragPiece(page,id,targetSelector,touch=false,checkHover=false,cancel=false){
+  await page.locator('#photo-puzzle-layout').scrollIntoViewIfNeeded();
+  const source=await page.locator(`[data-piece="${id}"]`).boundingBox();
+  const target=await page.locator(targetSelector).boundingBox();
+  assert.ok(source&&target,'Drag source and target exist');
+  const from={x:source.x+source.width/2,y:source.y+source.height/2};
+  const to={x:target.x+target.width/2,y:target.y+target.height/2};
+  let session;
+  const point=(x,y)=>({x,y,id:1,radiusX:7,radiusY:7,force:.8});
+  if(touch){session=await page.context().newCDPSession(page);await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point(from.x,from.y)]});await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[point(from.x+8,from.y-8)]});}
+  else{await page.mouse.move(from.x,from.y);await page.mouse.down();await page.mouse.move(from.x+8,from.y-8);}
+  await page.waitForFunction(()=>!!document.querySelector('.puzzle-drag-ghost'));
+  assert.match(await page.locator('#blueprint-status').innerText(),/PICKED UP/);
+  if(touch){for(let i=1;i<=12;i++){await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[point(from.x+(to.x-from.x)*i/12,from.y+(to.y-from.y)*i/12)]});}}
+  else await page.mouse.move(to.x,to.y,{steps:12});
+  if(checkHover)assert.equal(await page.locator(targetSelector).evaluate(el=>el.classList.contains('drag-over')),true,'Slot/tray hover feedback');
+  if(touch){await session.send('Input.dispatchTouchEvent',{type:cancel?'touchCancel':'touchEnd',touchPoints:[]});await session.detach();}
+  else if(cancel){await page.keyboard.press('Escape');await page.mouse.up();}else await page.mouse.up();
+  await page.waitForFunction(()=>!document.querySelector('.puzzle-drag-ghost'));
+}
 try {
   for(const width of widths){
-    const context=await browser.newContext({viewport:{width,height:900},deviceScaleFactor:1,reducedMotion:motion,hasTouch:width<600,isMobile:width<600});
+    const context=await browser.newContext({viewport:{width,height:Number(process.env.TEST_HEIGHT)||900},deviceScaleFactor:1,reducedMotion:motion,hasTouch:width<600,isMobile:width<600});
     const page=await context.newPage();
     const issues=[];
     page.on('pageerror',err=>issues.push(err.message));
@@ -72,22 +94,30 @@ try {
     await page.reload({waitUntil:'networkidle'});await page.locator('.keypad').waitFor();
     for(const key of ['6','8','1','3'])await page.locator(`[data-key="${key}"]`).click();
     await page.locator('#unlock').click();await page.locator('#envelope').waitFor();await screen('envelope');
-    await page.locator('#envelope').click();await page.locator('#blueprint-board').waitFor();await screen('blueprint');
-    let order=await page.locator('[data-fragment]').evaluateAll(elements=>elements.map(e=>e.dataset.fragment));
-    assert.notDeepEqual(order,['entrance','court','scoreboard']);
-    const savedOrder=[...order];await page.reload({waitUntil:'networkidle'});await page.locator('#blueprint-board').waitFor();
-    assert.deepEqual(await page.locator('[data-fragment]').evaluateAll(elements=>elements.map(e=>e.dataset.fragment)),savedOrder);
-    for(let i=0;i<3;i++){
-      order=await page.locator('[data-fragment]').evaluateAll(elements=>elements.map(e=>e.dataset.fragment));
-      const desired=['entrance','court','scoreboard'][i];const from=order.indexOf(desired);
-      if(i!==from){
-        // Native button activation verifies the tap-to-swap mechanic by keyboard too.
-        await page.locator(`[data-position="${i}"]`).focus();await page.keyboard.press('Enter');
-        await page.locator(`[data-position="${from}"]`).focus();await page.keyboard.press('Enter');
-      }
-    }
-    await page.locator('#deduce').waitFor({state:'visible'});await screen('blueprint-restored');
-    await page.locator('#deduce').click();await page.locator('.doors').waitFor();await screen('deduction');
+    await page.locator('#envelope').click();await page.locator('#puzzle-board').waitFor();await screen('photo-empty');
+    await page.locator('[data-action="hint"]').click();assert.match(await page.locator('#modal-content').innerText(),/Drag the pieces into the correct positions/);await page.locator('[data-close]').click();
+    assert.equal(await page.locator('.puzzle-slot').count(),6);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
+    let order=await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece));assert.notDeepEqual(order,pieceIds);
+    const geometry=await page.locator('.puzzle-slot').evaluateAll(slots=>slots.map(el=>{const r=el.getBoundingClientRect();return{x:Math.round(r.x),y:Math.round(r.y),w:r.width,h:r.height};}));
+    assert.equal(new Set(geometry.map(r=>r.x)).size,2);assert.equal(new Set(geometry.map(r=>r.y)).size,3);assert.ok(geometry.every(r=>Math.abs(r.w-r.h)<.6));
+    const touch=width<600;
+    await dragPiece(page,'k7','[data-slot="1"]',touch,true);assert.match(await page.locator('#blueprint-status').innerText(),/DON’T MATCH/);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
+    assert.deepEqual(await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece)),order);
+    await dragPiece(page,'k7','[data-slot="0"]',touch,true);assert.equal(await page.locator('[data-slot="0"] [data-piece="k7"]').count(),1);
+    await dragPiece(page,'m2','[data-slot="0"]',touch);assert.equal(await page.locator('[data-slot="0"] [data-piece="k7"]').count(),1);
+    await dragPiece(page,'k7','#puzzle-tray',touch,true);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
+    await dragPiece(page,'k7','[data-slot="0"]',touch);assert.match(await page.locator('#placed-count').innerText(),/1 \/ 6/);
+    const savedTray=await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece));
+    await page.reload({waitUntil:'networkidle'});await page.locator('#puzzle-board').waitFor();assert.equal(await page.locator('[data-slot="0"] [data-piece="k7"]').count(),1);
+    assert.deepEqual(await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece)),savedTray);
+    // Native button keyboard activation provides a fully usable drag alternative.
+    await page.locator('[data-piece="m2"]').focus();await page.keyboard.press('Space');await page.locator('[data-place="1"]').focus();await page.keyboard.press('Enter');
+    assert.equal(await page.locator('[data-slot="1"] [data-piece="m2"]').count(),1);
+    await dragPiece(page,'r9','[data-slot="2"]',touch,false,true);assert.equal(await page.locator('[data-slot="2"] [data-piece]').count(),0,'Canceled drag preserves state');
+    for(let i=2;i<6;i++)await dragPiece(page,pieceIds[i],`[data-slot="${i}"]`,touch);
+    await page.locator('#puzzle-board.restored').waitFor();await screen('photo-restored');assert.match(await page.locator('#placed-count').innerText(),/6 \/ 6/);
+    // Progression must happen automatically when all six correct slots are full.
+    await page.locator('.doors').waitFor();await screen('deduction');
     for(const door of ['A','B','C']){await page.locator(`[data-door="${door}"]`).click();assert.equal(await page.locator('.completion').count(),0);}
     await page.locator('[data-door="D"]').click();await page.locator('.completion').waitFor();await screen('complete',true);
     assert.match(await page.locator('.destination-card').innerText(),/SPOR SALONU/);
@@ -107,8 +137,8 @@ try {
       await context.setOffline(false);
     }
     assert.deepEqual(issues,[],`${width}: browser errors`);
-    summary.widths.push({width,result:'PASS',flow:'intro → cafe → lock → envelope → blueprint → deduction → complete',screens:8,logo:'intro and complete only',overflow:'none',consoleErrors:0});
-    console.log(`PASS ${width}px: complete playthrough, logo isolation, assets, layout, persistence, wrong answers, keyboard swapping.`);
+    summary.widths.push({width,result:'PASS',flow:'intro → cafe → lock → envelope → six-piece photo → deduction → complete',dragging:touch?'real touch events':'mouse',screens:8,logo:'intro and complete only',overflow:'none',consoleErrors:0});
+    console.log(`PASS ${width}px: ${touch?'touch':'mouse'} dragging, wrong/correct drops, moving placed tiles, canceled drags, keyboard placement, saves and automatic progression.`);
     await context.close();
   }
   // Corrupted storage and disabled browser APIs must degrade safely in the real UI.

@@ -1,6 +1,6 @@
 # CASE 02 — The Lost Destination
 
-A complete mobile-first, browser-based mystery for the AISC treasure hunt. Participants open the public site from a QR code, investigate a cafe, open an informant's case, restore a blueprint, and identify the next checkpoint. No account, installation, camera, location permission, backend, analytics, or background music.
+A complete mobile-first, browser-based mystery for the AISC treasure hunt. Participants open the public site from a QR code, investigate a cafe, open an informant's case, restore a photograph, and identify the next checkpoint. No account, installation, camera, location permission, backend, analytics, or background music.
 
 **[Play the published game](https://youssefhany29.github.io/AISC-Treasure-Hunt/)** · [Public source repository](https://github.com/youssefhany29/AISC-Treasure-Hunt) · [Deployment verification](docs/DEPLOYMENT.md)
 
@@ -29,8 +29,8 @@ On a phone on the same Wi-Fi, use `http://YOUR-PC-LAN-IP:4173` and allow the Nod
 1. **Classified briefing:** a short cinematic intro, supplied AISC logo, fingerprint scan, and Begin Investigation button.
 2. **Cafe evidence:** tap a receipt, lift a cup, unfold a napkin, and flip a coaster. Recovered clues save immediately and can be reexamined.
 3. **Security case:** use recovered symbol values in the lock's order on a custom keypad. Clear, delete, unlimited retries, evidence access, hints, and physical case feedback.
-4. **Sealed envelope and blueprint:** open the envelope, then select two fragments to swap. Three pieces come from one continuous floorplan. The random start is always unsolved; all arrangements save.
-5. **Final deduction:** choose between four illustrated locations using the riddle and restored plan. Wrong choices give helpful feedback without penalties.
+4. **Sealed envelope and photo puzzle:** open the envelope, then drag six shuffled square photo pieces into an empty **2 columns × 3 rows** target board. Touch and mouse dragging, picked-up/hover/correct/incorrect feedback, snapping, cancellation, and moving placed pieces back to the tray are supported. Correct placements save immediately. The restored image triggers the success animation/sound and automatically continues to the final deduction. A tap/keyboard placement alternative is also available.
+5. **Final deduction:** choose between four illustrated locations using the riddle and restored photograph. Wrong choices give helpful feedback without penalties.
 6. **Mission Complete:** the next destination appears only after the correct choice, with a golden reveal, checkpoint badge, and the official AISC logo. The result can be reopened and survives refresh.
 
 Tap or use Tab plus Enter/Space. The keypad also accepts number keys when focus is outside a control; Backspace deletes, Escape clears, and Enter submits. Standard button keyboard access always works. There is no time limit.
@@ -43,7 +43,7 @@ Semantic buttons, descriptive object labels, modal focus management, keyboard co
 
 ## Saves, resets, and offline use
 
-Progress is stored on the participant's browser under `treasureHunt.case02.v1`. It includes stage, evidence, solved puzzles, blueprint order, envelope state, hint use, completion, and sound preference. Invalid or stale data falls back safely. If storage is blocked, the game still works for the current visit.
+Progress is stored on the participant's browser under `treasureHunt.case02.v1`. It includes stage, evidence, solved puzzles, photo slots and shuffled tray order, envelope state, hint use, completion, and sound preference. Invalid or stale data falls back safely. If storage is blocked, the game still works for the current visit. The photo update preserves the existing save key: unfinished legacy blueprint saves retain earlier progress and receive the new puzzle; previously solved missions retain their deduction/completion.
 
 **Case settings → Organizer: reset this mission → Clear progress and restart** deliberately clears only this game's progress, retaining sound preference. Browser Back does not perform stage navigation or erase progress.
 
@@ -65,11 +65,13 @@ Edit **`js/config.js`**. Central settings:
 | `SHOW_PROGRESS`, `ALLOW_RESTART` | Progress display and organizer reset |
 | `STORAGE_VERSION`, `STORAGE_NAMESPACE` | Namespaced save version; bump the version if puzzle definitions change |
 | `evidence`, `lockOrder` | Clue symbols/values and their sequence; validation derives the answer from these values |
-| `fragmentOrder`, `fragments` | Continuous blueprint tile order and image offsets |
+| `puzzle` | Puzzle revision, 2 × 3 dimensions, source image, complete frame, and six tile IDs/paths/correct slots |
 | `doors`, `correctDoor` | Illustrated choices, feedback, and accepted door |
 | `text`, `assets`, `sounds` | Copy, hints, and relative local asset paths |
 
-Safe event edits include wording, hints, destination name, feature toggles, and a verified checkpoint URL. Update the completion message/riddle/blueprint/door artwork consistently if the destination changes to a different type of place. When changing clue values, keep them single digits; the four-digit code is derived automatically. Changing fragment order without matching the continuous artwork would break the puzzle. Run all tests after changes. Do not publish a navigation link until an organizer has checked it.
+Safe event edits include wording, hints, destination name, feature toggles, and a verified checkpoint URL. Update the completion message/riddle/photo/door artwork consistently if the destination changes to a different type of place. When changing clue values, keep them single digits; the four-digit code is derived automatically. Puzzle pieces are configured in row-major correct order; do not rearrange their definitions without matching the generated image crops. Run all tests after changes. Do not publish a navigation link until an organizer has checked it.
+
+The exact uploaded sports hall photo is stored at `assets/images/puzzle/indoor-sports-hall.png`. Its original **492 × 361** pixels are preserved inside a **492 × 738** portrait evidence frame, without stretching or cropping. That frame is cut into six **246 × 246** lossless PNG tiles. This keeps the entire landscape photo visible while satisfying the requested portrait 2 × 3 square-tile layout. To regenerate, install Pillow and run `python scripts/generate-photo-tiles.py`; verify with `npm run test:tiles`. No AI image generation is used. The browser uses only the local static PNGs.
 
 The official **AISC logo** is the exact user-supplied PNG at `assets/images/aisc-logo.png`. It is rendered proportionally with no filters, cropping, recoloring, or recreated elements, and appears only on the intro and Mission Complete screens. Do not put it on shared gameplay components.
 
@@ -80,7 +82,7 @@ npm test
 npm run validate
 ```
 
-These run with Node's built-in runner and no installs. Core tests cover initial state, evidence and duplicates, progression gates, wrong/correct codes, unsolved shuffling, swaps, completion, doors, destination visibility, persistence/corruption, reset, and unavailable/muted audio. The validator resolves configured local assets, CSS image paths, and ES-module imports.
+These run with Node's built-in runner and no installs. Core tests cover initial state, evidence and duplicates, progression gates, wrong/correct codes, shuffled pieces, correct/incorrect placement, returning placed tiles, completion, doors, destination visibility, persistence/corruption, legacy-save migration, reset, and unavailable/muted audio. The validator resolves configured local assets, CSS image paths, and ES-module imports. `npm run test:tiles` additionally requires Python with Pillow and verifies source identity, square dimensions, pixel-perfect reassembly and preservation of every original photo pixel.
 
 Browser QA uses **Playwright** and a running HTTP server. Codex's bundled Playwright is supported automatically. On another PC:
 
@@ -98,7 +100,7 @@ npm run test:browser
 
 Optional `PLAYWRIGHT_MODULE_PATH` points at a Playwright installation, and `BROWSER_EXECUTABLE` at an existing Chromium/Chrome/Edge executable. `BASE_URL` selects a published site. Reports/screenshots go to ignored `test-results/`.
 
-The browser suite plays the **entire game at 320, 375, 390, 430, 768 and 1024px**, checks missing images, console/network errors, overflow, clipped controls, correct logo placement, hidden destination, wrong choices, refresh persistence, keyboard swapping, audio decoding, offline refresh, mute, and reset. Chromium automation is not a substitute for checking real iPhone Safari and Android Chrome before the event.
+The browser suite plays the **entire game at 320, 375, 390, 430, 768 and 1024px**, checks missing images, console/network errors, overflow, clipped controls, correct logo placement, hidden destination, wrong choices, refresh persistence, real touch-event/mouse drags, incorrect and correct drops, returning placed pieces, drag cancellation, keyboard placement, automatic puzzle progression, audio decoding, offline refresh, mute, and reset. `TEST_WIDTHS`, `TEST_HEIGHT`, and `TEST_REDUCED_MOTION=false` allow targeted viewport/animation checks. Chromium automation is not a substitute for checking real iPhone Safari and Android Chrome before the event.
 
 ## Publish to GitHub Pages
 
@@ -138,11 +140,12 @@ Before the event, use iPhone Safari and Android Chrome to test the printed QR, p
 index.html, .nojekyll        Static entry point and GitHub Pages support
 css/                        Main theme, animations, responsive layouts
 js/config.js                Organizer settings, text, puzzle/asset definitions
-js/game-state.js             Pure validated state and puzzle logic
+js/game-state.js             Validated game state and backward-compatible saves
+js/photo-puzzle-state.js     Six-piece board/tray placement and recovery logic
 js/audio-manager.js          Gesture-safe, failure-tolerant local sound effects
 js/stages/                   Intro, cafe, lock, blueprint, deduction, completion
-js/components/               Hints, evidence, modal, transitions and shared UI
-assets/images/              Official logo, original scene SVGs, CC0 UI images
+js/components/               Pointer drag controller, hints, evidence, modal and UI
+assets/images/              Official logo, supplied photo/tiles, scene SVGs, CC0 UI
 assets/sounds/              Curated CC0 PCM WAV effects; no music
 assets/licenses/            Original licenses and source/hash manifest
 sw.js, asset-manifest.js     Relative-path offline cache

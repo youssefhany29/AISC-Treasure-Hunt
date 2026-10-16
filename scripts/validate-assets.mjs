@@ -1,7 +1,7 @@
 import { readFile, access, readdir, stat } from 'node:fs/promises';
 import { CONFIG } from '../js/config.js';
 import { fileURLToPath } from 'node:url';
-const root=new URL('../',import.meta.url);const paths=[...Object.values(CONFIG.assets),...Object.values(CONFIG.sounds),...CONFIG.evidence.map(e=>e.image),...CONFIG.doors.map(d=>d.image)];
+const root=new URL('../',import.meta.url);const paths=[...Object.values(CONFIG.assets),...Object.values(CONFIG.sounds),...CONFIG.evidence.map(e=>e.image),...CONFIG.doors.map(d=>d.image),CONFIG.puzzle.source,CONFIG.puzzle.image,...CONFIG.puzzle.pieces.map(p=>p.image)];
 const errors=[];
 for(const p of new Set(paths)){
   try{await access(new URL(p,root));const b=await readFile(new URL(p,root));

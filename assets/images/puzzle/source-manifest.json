@@ -1,0 +1,83 @@
+{
+  "source": "assets/images/puzzle/indoor-sports-hall.png",
+  "sourceSha256": "6da34c8cdfdf39d1e305de627a90ab1c7e909af17f59ba84b914a443ab98bc9e",
+  "sourceSize": [
+    492,
+    361
+  ],
+  "boardSize": [
+    492,
+    738
+  ],
+  "photoRectangle": [
+    0,
+    188,
+    492,
+    361
+  ],
+  "columns": 2,
+  "rows": 3,
+  "method": "Original photo pixels preserved inside a portrait evidence frame; lossless square crops.",
+  "tiles": [
+    {
+      "slot": 0,
+      "row": 0,
+      "column": 0,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-01.png"
+    },
+    {
+      "slot": 1,
+      "row": 0,
+      "column": 1,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-02.png"
+    },
+    {
+      "slot": 2,
+      "row": 1,
+      "column": 0,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-03.png"
+    },
+    {
+      "slot": 3,
+      "row": 1,
+      "column": 1,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-04.png"
+    },
+    {
+      "slot": 4,
+      "row": 2,
+      "column": 0,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-05.png"
+    },
+    {
+      "slot": 5,
+      "row": 2,
+      "column": 1,
+      "size": [
+        246,
+        246
+      ],
+      "path": "assets/images/puzzle/tiles/tile-06.png"
+    }
+  ]
+}
