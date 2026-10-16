@@ -61,7 +61,7 @@ try {
       assert.deepEqual(clipped,[],`${width}/${name}: clipped controls`);
       await page.screenshot({path:path.join(output,`${width}-${name}.png`),fullPage:true});
     }
-    await page.goto(base,{waitUntil:'networkidle'});
+    await page.goto(base,{waitUntil:'domcontentloaded'});
     await page.locator('#begin').waitFor();await screen('intro',true);
     if(width===390){
       await page.evaluate(async()=>{await navigator.serviceWorker.ready;});
@@ -74,7 +74,7 @@ try {
     assert.match(await page.locator('#modal-content').innerText(),/▲\s*=\s*8/);
     await page.locator('[data-close]').click();
     // Reload mid-investigation and inspect the same clue again: count stays one.
-    await page.reload({waitUntil:'networkidle'});await page.locator('.cafe-scene').waitFor();
+    await page.reload({waitUntil:'domcontentloaded'});await page.locator('.cafe-scene').waitFor();
     assert.match(await page.locator('#evidence-count').innerText(),/1\s*\/4/);
     await page.locator('[data-object="receipt"]').click();await page.locator('[data-close]').click();
     assert.match(await page.locator('#evidence-count').innerText(),/1\s*\/4/);
@@ -91,7 +91,7 @@ try {
     // Test clear and delete as well as the successful sequence.
     await page.locator('[data-key="5"]').click();await page.locator('[data-key="DEL"]').click();
     await page.locator('[data-key="9"]').click();await page.locator('[data-key="C"]').click();
-    await page.reload({waitUntil:'networkidle'});await page.locator('.keypad').waitFor();
+    await page.reload({waitUntil:'domcontentloaded'});await page.locator('.keypad').waitFor();
     for(const key of ['6','8','1','3'])await page.locator(`[data-key="${key}"]`).click();
     await page.locator('#unlock').click();await page.locator('#envelope').waitFor();await screen('envelope');
     await page.locator('#envelope').click();await page.locator('#puzzle-board').waitFor();await screen('photo-empty');
@@ -110,7 +110,7 @@ try {
     await dragPiece(page,'k7','#puzzle-tray',touch,true);assert.equal(await page.locator('#puzzle-board [data-piece]').count(),0);
     await dragPiece(page,'k7','[data-slot="0"]',touch);assert.match(await page.locator('#placed-count').innerText(),/1 \/ 6/);
     const savedTray=await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece));
-    await page.reload({waitUntil:'networkidle'});await page.locator('#puzzle-board').waitFor();assert.equal(await page.locator('[data-slot="0"] [data-piece="k7"]').count(),1);
+    await page.reload({waitUntil:'domcontentloaded'});await page.locator('#puzzle-board').waitFor();assert.equal(await page.locator('[data-slot="0"] [data-piece="k7"]').count(),1);
     assert.deepEqual(await page.locator('#puzzle-tray [data-piece]').evaluateAll(elements=>elements.map(e=>e.dataset.piece)),savedTray);
     // Native button keyboard activation provides a fully usable drag alternative.
     await page.locator('[data-piece="m2"]').focus();await page.keyboard.press('Space');await page.locator('[data-place="1"]').focus();await page.keyboard.press('Enter');
@@ -125,7 +125,7 @@ try {
     assert.match(await page.locator('.destination-card').innerText(),/SPOR SALONU/);
     assert.equal(await page.locator('a:has-text("CONTINUE TO THE NEXT CHECKPOINT")').count(),0);
     await page.locator('#show-result').click();
-    await page.reload({waitUntil:'networkidle'});await page.locator('.completion').waitFor();assert.equal(await page.locator('.aisc-logo').count(),1);
+    await page.reload({waitUntil:'domcontentloaded'});await page.locator('.completion').waitFor();assert.equal(await page.locator('.aisc-logo').count(),1);
     if(width===390){
       const decoded=await page.evaluate(async()=>{
         const {CONFIG}=await import('./js/config.js');const context=new (window.AudioContext||window.webkitAudioContext)();
@@ -177,7 +177,7 @@ try {
   // Corrupted storage and disabled browser APIs must degrade safely in the real UI.
   const ctx=await browser.newContext({viewport:{width:375,height:812},reducedMotion:'reduce'});const page=await ctx.newPage();
   await page.addInitScript(()=>{Object.defineProperty(window,'AudioContext',{value:undefined});Object.defineProperty(window,'webkitAudioContext',{value:undefined});});
-  await page.goto(base,{waitUntil:'networkidle'});await page.evaluate(()=>localStorage.setItem('treasureHunt.case02.v1','{corrupt'));await page.reload();await page.locator('#begin').waitFor();await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
+  await page.goto(base,{waitUntil:'domcontentloaded'});await page.locator('#begin').waitFor();await page.evaluate(()=>localStorage.setItem('treasureHunt.case02.v1','{corrupt'));await page.reload();await page.locator('#begin').waitFor();await page.locator('#begin').click();await page.locator('.cafe-scene').waitFor();
   await page.locator('#sound-toggle').click();assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),'false');await page.reload();assert.match(await page.locator('#sound-label').innerText(),/OFF/);
   await page.locator('#organizer').click();await page.locator('#restart-mission').click();await page.locator('#confirm-restart').click();await page.locator('#begin').waitFor();assert.equal(await page.locator('.aisc-logo').count(),1);
   assert.equal(await page.locator('#sound-toggle').getAttribute('aria-pressed'),'false');
@@ -190,7 +190,7 @@ try {
       if(['blueprint','deduction'].includes(stage)){g.unlock('6813');g.openEnvelope();}
       if(stage==='deduction'){pieceOrder.forEach((id,i)=>g.placePiece(id,i));g.openDeduction();}
     },stage);
-    await page.reload({waitUntil:'networkidle'});
+    await page.reload({waitUntil:'domcontentloaded'});
     await page.waitForFunction(()=>document.querySelector('#main')?.getAttribute('aria-busy')==='false');
     if(stage==='blueprint'){
       for(let i=0;i<6;i++)await dragPiece(page,pieceIds[i],`[data-slot="${i}"]`);

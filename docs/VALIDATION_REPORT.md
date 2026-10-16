@@ -1,3 +1,9 @@
+# Current olive/cream visual release
+
+The theme passed **147 screen/dialog views at seven widths**, an additional computed-color check of **3,440 rendered text nodes** (minimum 4.82:1), conservative gradient/texture and control contrast bounds, **32 logic tests**, the static validator, photo reconstruction, six-width gameplay/replay, and a normal-motion 390 × 640 run. Every existing asset and gameplay JavaScript file is unchanged. A v3-to-v4 cache update preserved the entire saved mission and offline loading. See [OLIVE_THEME.md](OLIVE_THEME.md) and the theme reports.
+
+The following earlier release checks are retained as history.
+
 # Latest photo/replay release
 
 The current release passed **32/32 Node tests**, source-photo hash and pixel reconstruction checks, six-width Chromium touch/mouse QA with **three full complete/restart cycles per width**, and v2-to-v3 cached-client migration. The photo is now a plain **3 columns × 2 rows** reconstruction of the supplied image. See [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md) and [PUBLISHED_TEST_REPORT.json](PUBLISHED_TEST_REPORT.json).
