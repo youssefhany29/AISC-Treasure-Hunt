@@ -2,7 +2,7 @@
 
 Verified on **16 October 2026** (Europe/Istanbul).
 
-**Current puzzle update:** the six-piece sports hall photo release is deployed from game-source commit `e9376a0fb94bdf8823be10f87ea0cff3b698a58e`. [Its Pages deployment succeeded](https://github.com/youssefhany29/AISC-Treasure-Hunt/actions/runs/38949282661). The published game passed complete touch/mouse playthroughs at all six widths. See [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md), the latest [published report](PUBLISHED_TEST_REPORT.json), and the [cached-client migration check](CACHE_UPGRADE_TEST_REPORT.json). The public URL is unchanged.
+**Current photo/replay update:** deployed from game-source commit `53f1d0ea54d6445654a94454b624b9e95137a099`. [Its Pages deployment succeeded](https://github.com/youssefhany29/AISC-Treasure-Hunt/actions/runs/38953933777). The board now reconstructs only the supplied sports hall photo as **3 columns × 2 rows**, with six shuffled crops and no added evidence frame. **PLAY AGAIN** and **Case settings → Restart Mission** offer confirmed resets that preserve sound and unrelated storage. See [PHOTO_PUZZLE_UPDATE.md](PHOTO_PUZZLE_UPDATE.md), the [published report](PUBLISHED_TEST_REPORT.json), and the [cached-client migration check](CACHE_UPGRADE_TEST_REPORT.json). The public site passed **18 complete/restart cycles across six viewport widths**, plus settings resets, touch/mouse puzzle input, offline play and asset checks. The public URL is unchanged.
 
 ## Public game URL
 
@@ -31,8 +31,9 @@ The repository was checked before creation; no duplicate was created. Git was in
    `5FBFE27DCE694128AC767A016C2AE2B5CEC3D1E144897AC1B152D785F4DCE1DB`
 
 5. **Complete anonymous browser playthroughs on the published site passed at 320, 375, 390, 430, 768 and 1024px.** Tests checked all stages, images, console/network errors, horizontal overflow/clipped controls, wrong codes and doors, inventory, hints, saved progress, touch/mouse dragging, keyboard photo-piece placement, automatic progression, and destination/branding visibility.
-6. All **11 sound effects** decoded from the live deployment. The entire 390px game also completed **offline after initial caching**, followed by an offline refresh of Mission Complete.
-7. Public-site tests also checked corrupt-save recovery, unavailable AudioContext, saved mute preference, and organizer reset.
+6. The live source photo returned **200 OK** and matched SHA-256 `6da34c8cdfdf39d1e305de627a90ab1c7e909af17f59ba84b914a443ab98bc9e`. Its six local crops reconstruct the original image without added content.
+7. All **11 sound effects** decoded from the live deployment. The entire 390px game also completed **offline after initial caching**, followed by an offline refresh of Mission Complete.
+8. Public-site tests also checked corrupt-save recovery, unavailable AudioContext, saved mute preference, and settings restart. The current release checks three complete/restart cycles per viewport, Cancel, confirmed no-refresh resets, sound and unrelated-storage preservation, settings restarts at each stage, and cancellation of pending puzzle/evidence transitions.
 
 Machine-readable public test results: [PUBLISHED_TEST_REPORT.json](PUBLISHED_TEST_REPORT.json). Core and local/normal-motion results: [VALIDATION_REPORT.md](VALIDATION_REPORT.md).
 

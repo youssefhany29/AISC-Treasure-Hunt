@@ -5,7 +5,9 @@
     {
       "width": 320,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
@@ -15,7 +17,9 @@
     {
       "width": 375,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
@@ -25,7 +29,9 @@
     {
       "width": 390,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
@@ -35,7 +41,9 @@
     {
       "width": 430,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "real touch events",
       "screens": 8,
       "logo": "intro and complete only",
@@ -45,7 +53,9 @@
     {
       "width": 768,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "mouse",
       "screens": 8,
       "logo": "intro and complete only",
@@ -55,7 +65,9 @@
     {
       "width": 1024,
       "result": "PASS",
-      "flow": "intro → cafe → lock → envelope → six-piece photo → deduction → complete",
+      "flow": "three complete playthroughs, each restarted, then start again",
+      "restart": "confirmed and canceled, no refresh, sound and unrelated storage retained",
+      "puzzle": "original photograph, 3 columns × 2 rows",
       "dragging": "mouse",
       "screens": 8,
       "logo": "intro and complete only",
@@ -67,7 +79,7 @@
     "390px entire investigation played offline after initial cache",
     "Audio: 11 local WAV effects decoded by browser",
     "Offline refresh and local asset loading passed",
-    "Corrupted save recovery, unavailable AudioContext, saved mute preference, organizer reset"
+    "Corrupt save, unavailable audio, saved mute, settings restart at every stage, cancel, pending puzzle and evidence animation cancellation"
   ],
   "errors": [],
   "result": "PASS"

@@ -26,5 +26,7 @@ Static relative PNGs and the `case02-static-v3-photo-replay` service-worker cach
 
 - **32/32 Node tests passed**, including repeated completion/reset, unrelated-storage preservation, current/legacy saved progress and all existing game gates.
 - Exact uploaded file hash and full-photo reconstruction passed the Pillow verifier.
-- Current local and published browser results are recorded in deployment documentation and `PUBLISHED_TEST_REPORT.json`.
+- Local browser QA passed at **320, 375, 390, 430, 768 and 1024px**, with **three full complete/restart cycles per width** and another start. It checked touch/mouse drag, wrong/correct drops, returning placed pieces, cancellation, keyboard placement, saved progress, restart confirmation/cancellation, no navigation, sound and unrelated storage retention, settings restart at every stage, offline play and all 11 audio decodes.
+- A **390 × 640** run with normal animations also passed three complete/restart cycles, plus a deterministic restart before a pending clue dialog could open.
+- The **published GitHub Pages site passed the same six-width suite and 18 full complete/restart cycles**. The live source photo and logo hashes match the uploads. Results are recorded in deployment documentation and `PUBLISHED_TEST_REPORT.json`.
 - Browser QA uses Chromium touch emulation and mouse input. Physical iPhone Safari and Android Chrome remain device checks; no physical-device test is claimed.
